@@ -1,0 +1,76 @@
+const SRD_ARMOR = [
+  { id: "padded", name: "Padded", category: "Light", baseAC: 11, dexMax: null, stealthDisadvantage: true, weight: 8, cost: "5 gp" },
+  { id: "leather", name: "Leather", category: "Light", baseAC: 11, dexMax: null, stealthDisadvantage: false, weight: 10, cost: "10 gp" },
+  { id: "studded-leather", name: "Studded Leather", category: "Light", baseAC: 12, dexMax: null, stealthDisadvantage: false, weight: 13, cost: "45 gp" },
+  { id: "hide", name: "Hide", category: "Medium", baseAC: 12, dexMax: 2, stealthDisadvantage: false, weight: 12, cost: "10 gp" },
+  { id: "chain-shirt", name: "Chain Shirt", category: "Medium", baseAC: 13, dexMax: 2, stealthDisadvantage: false, weight: 20, cost: "50 gp" },
+  { id: "scale-mail", name: "Scale Mail", category: "Medium", baseAC: 14, dexMax: 2, stealthDisadvantage: true, weight: 45, cost: "50 gp" },
+  { id: "breastplate", name: "Breastplate", category: "Medium", baseAC: 14, dexMax: 2, stealthDisadvantage: false, weight: 20, cost: "400 gp" },
+  { id: "half-plate", name: "Half Plate", category: "Medium", baseAC: 15, dexMax: 2, stealthDisadvantage: true, weight: 40, cost: "750 gp" },
+  { id: "ring-mail", name: "Ring Mail", category: "Heavy", baseAC: 14, dexMax: 0, stealthDisadvantage: true, weight: 40, cost: "30 gp" },
+  { id: "chain-mail", name: "Chain Mail", category: "Heavy", baseAC: 16, dexMax: 0, stealthDisadvantage: true, weight: 55, cost: "75 gp", strReq: 13 },
+  { id: "splint", name: "Splint", category: "Heavy", baseAC: 17, dexMax: 0, stealthDisadvantage: true, weight: 60, cost: "200 gp", strReq: 15 },
+  { id: "plate", name: "Plate", category: "Heavy", baseAC: 18, dexMax: 0, stealthDisadvantage: true, weight: 65, cost: "1500 gp", strReq: 15 },
+];
+
+const SRD_SHIELD = { id: "shield", name: "Shield", acBonus: 2, weight: 6, cost: "10 gp" };
+
+const SRD_WEAPONS = [
+  // Simple Melee
+  { id: "club", name: "Club", category: "Simple", kind: "Melee", damage: "1d4", type: "Bludgeoning", properties: "Light", weight: 2, cost: "1 sp" },
+  { id: "dagger", name: "Dagger", category: "Simple", kind: "Melee", damage: "1d4", type: "Piercing", properties: "Finesse, Light, Thrown (20/60)", finesse: true, weight: 1, cost: "2 gp" },
+  { id: "greatclub", name: "Greatclub", category: "Simple", kind: "Melee", damage: "1d8", type: "Bludgeoning", properties: "Two-Handed", weight: 10, cost: "2 sp" },
+  { id: "handaxe", name: "Handaxe", category: "Simple", kind: "Melee", damage: "1d6", type: "Slashing", properties: "Light, Thrown (20/60)", weight: 2, cost: "5 gp" },
+  { id: "javelin", name: "Javelin", category: "Simple", kind: "Melee", damage: "1d6", type: "Piercing", properties: "Thrown (30/120)", weight: 2, cost: "5 sp" },
+  { id: "light-hammer", name: "Light Hammer", category: "Simple", kind: "Melee", damage: "1d4", type: "Bludgeoning", properties: "Light, Thrown (20/60)", weight: 2, cost: "2 gp" },
+  { id: "mace", name: "Mace", category: "Simple", kind: "Melee", damage: "1d6", type: "Bludgeoning", properties: "", weight: 4, cost: "5 gp" },
+  { id: "quarterstaff", name: "Quarterstaff", category: "Simple", kind: "Melee", damage: "1d6", type: "Bludgeoning", properties: "Versatile (1d8)", weight: 4, cost: "2 sp" },
+  { id: "sickle", name: "Sickle", category: "Simple", kind: "Melee", damage: "1d4", type: "Slashing", properties: "Light", weight: 2, cost: "1 gp" },
+  { id: "spear", name: "Spear", category: "Simple", kind: "Melee", damage: "1d6", type: "Piercing", properties: "Thrown (20/60), Versatile (1d8)", weight: 3, cost: "1 gp" },
+  // Simple Ranged
+  { id: "light-crossbow", name: "Light Crossbow", category: "Simple", kind: "Ranged", damage: "1d8", type: "Piercing", properties: "Ammunition (80/320), Loading, Two-Handed", weight: 5, cost: "25 gp" },
+  { id: "dart", name: "Dart", category: "Simple", kind: "Ranged", damage: "1d4", type: "Piercing", properties: "Finesse, Thrown (20/60)", finesse: true, weight: 0.25, cost: "5 cp" },
+  { id: "shortbow", name: "Shortbow", category: "Simple", kind: "Ranged", damage: "1d6", type: "Piercing", properties: "Ammunition (80/320), Two-Handed", weight: 2, cost: "25 gp" },
+  { id: "sling", name: "Sling", category: "Simple", kind: "Ranged", damage: "1d4", type: "Bludgeoning", properties: "Ammunition (30/120)", weight: 0, cost: "1 sp" },
+  // Martial Melee
+  { id: "battleaxe", name: "Battleaxe", category: "Martial", kind: "Melee", damage: "1d8", type: "Slashing", properties: "Versatile (1d10)", weight: 4, cost: "10 gp" },
+  { id: "flail", name: "Flail", category: "Martial", kind: "Melee", damage: "1d8", type: "Bludgeoning", properties: "", weight: 2, cost: "10 gp" },
+  { id: "glaive", name: "Glaive", category: "Martial", kind: "Melee", damage: "1d10", type: "Slashing", properties: "Heavy, Reach, Two-Handed", weight: 6, cost: "20 gp" },
+  { id: "greataxe", name: "Greataxe", category: "Martial", kind: "Melee", damage: "1d12", type: "Slashing", properties: "Heavy, Two-Handed", weight: 7, cost: "30 gp" },
+  { id: "greatsword", name: "Greatsword", category: "Martial", kind: "Melee", damage: "2d6", type: "Slashing", properties: "Heavy, Two-Handed", weight: 6, cost: "50 gp" },
+  { id: "halberd", name: "Halberd", category: "Martial", kind: "Melee", damage: "1d10", type: "Slashing", properties: "Heavy, Reach, Two-Handed", weight: 6, cost: "20 gp" },
+  { id: "lance", name: "Lance", category: "Martial", kind: "Melee", damage: "1d12", type: "Piercing", properties: "Reach, special (two hands unless mounted)", weight: 6, cost: "10 gp" },
+  { id: "longsword", name: "Longsword", category: "Martial", kind: "Melee", damage: "1d8", type: "Slashing", properties: "Versatile (1d10)", weight: 3, cost: "15 gp" },
+  { id: "maul", name: "Maul", category: "Martial", kind: "Melee", damage: "2d6", type: "Bludgeoning", properties: "Heavy, Two-Handed", weight: 10, cost: "10 gp" },
+  { id: "morningstar", name: "Morningstar", category: "Martial", kind: "Melee", damage: "1d8", type: "Piercing", properties: "", weight: 4, cost: "15 gp" },
+  { id: "pike", name: "Pike", category: "Martial", kind: "Melee", damage: "1d10", type: "Piercing", properties: "Heavy, Reach, Two-Handed", weight: 18, cost: "5 gp" },
+  { id: "rapier", name: "Rapier", category: "Martial", kind: "Melee", damage: "1d8", type: "Piercing", properties: "Finesse", finesse: true, weight: 2, cost: "25 gp" },
+  { id: "scimitar", name: "Scimitar", category: "Martial", kind: "Melee", damage: "1d6", type: "Slashing", properties: "Finesse, Light", finesse: true, weight: 3, cost: "25 gp" },
+  { id: "shortsword", name: "Shortsword", category: "Martial", kind: "Melee", damage: "1d6", type: "Piercing", properties: "Finesse, Light", finesse: true, weight: 2, cost: "10 gp" },
+  { id: "trident", name: "Trident", category: "Martial", kind: "Melee", damage: "1d6", type: "Piercing", properties: "Thrown (20/60), Versatile (1d8)", weight: 4, cost: "5 gp" },
+  { id: "war-pick", name: "War Pick", category: "Martial", kind: "Melee", damage: "1d8", type: "Piercing", properties: "", weight: 2, cost: "5 gp" },
+  { id: "warhammer", name: "Warhammer", category: "Martial", kind: "Melee", damage: "1d8", type: "Bludgeoning", properties: "Versatile (1d10)", weight: 2, cost: "15 gp" },
+  { id: "whip", name: "Whip", category: "Martial", kind: "Melee", damage: "1d4", type: "Slashing", properties: "Finesse, Reach", finesse: true, weight: 3, cost: "2 gp" },
+  // Martial Ranged
+  { id: "blowgun", name: "Blowgun", category: "Martial", kind: "Ranged", damage: "1", type: "Piercing", properties: "Ammunition (25/100), Loading", weight: 1, cost: "10 gp" },
+  { id: "hand-crossbow", name: "Hand Crossbow", category: "Martial", kind: "Ranged", damage: "1d6", type: "Piercing", properties: "Ammunition (30/120), Light, Loading", weight: 3, cost: "75 gp" },
+  { id: "heavy-crossbow", name: "Heavy Crossbow", category: "Martial", kind: "Ranged", damage: "1d10", type: "Piercing", properties: "Ammunition (100/400), Heavy, Loading, Two-Handed", weight: 18, cost: "50 gp" },
+  { id: "longbow", name: "Longbow", category: "Martial", kind: "Ranged", damage: "1d8", type: "Piercing", properties: "Ammunition (150/600), Heavy, Two-Handed", weight: 2, cost: "50 gp" },
+];
+
+const SRD_EQUIPMENT_PACKS = [
+  { id: "burglar", name: "Burglar's Pack", cost: "16 gp",
+    contents: "Backpack, bag of 1,000 ball bearings, 10ft string, bell, 5 candles, crowbar, hammer, 10 pitons, hooded lantern, 2 flasks of oil, 5 days rations, tinderbox, waterskin, 50ft hempen rope" },
+  { id: "diplomat", name: "Diplomat's Pack", cost: "39 gp",
+    contents: "Chest, 2 cases for maps/scrolls, fine clothes, bottle of ink, ink pen, lamp, 2 flasks of oil, 5 sheets of paper, vial of perfume, sealing wax, soap" },
+  { id: "dungeoneer", name: "Dungeoneer's Pack", cost: "12 gp",
+    contents: "Backpack, crowbar, hammer, 10 pitons, 10 torches, tinderbox, 10 days rations, waterskin, 50ft hempen rope" },
+  { id: "entertainer", name: "Entertainer's Pack", cost: "40 gp",
+    contents: "Backpack, bedroll, 2 costumes, 5 candles, 5 days rations, waterskin, disguise kit" },
+  { id: "explorer", name: "Explorer's Pack", cost: "10 gp",
+    contents: "Backpack, bedroll, mess kit, tinderbox, 10 torches, 10 days rations, waterskin, 50ft hempen rope" },
+  { id: "priest", name: "Priest's Pack", cost: "19 gp",
+    contents: "Backpack, blanket, 10 candles, tinderbox, alms box, 2 blocks of incense, censer, vestments, 2 days rations, waterskin" },
+  { id: "scholar", name: "Scholar's Pack", cost: "40 gp",
+    contents: "Backpack, book of lore, bottle of ink, ink pen, 10 sheets of parchment, little bag of sand, small knife" },
+];

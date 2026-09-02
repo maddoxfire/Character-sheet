@@ -1,23 +1,37 @@
-# Jaxen Ryder — Character Sheet
+# D&D Character Builder
 
-An interactive, single-page D&D 5e character sheet website, built from a
-MorePurpleMoreBetter (MPMB) character record sheet PDF for **Jaxen Ryder**,
-a 3rd-level Protector Aasimar Paladin (Oath of the Crown).
+A browser-based D&D 5e character builder and sheet. Create characters from
+official races, classes, subclasses, and backgrounds, play with them using an
+interactive tracked sheet, and extend the whole thing with your own homebrew
+content.
+
+No backend, no build step — plain HTML/CSS/JS. Everything is stored locally
+in your browser (`localStorage`).
 
 ## Features
 
-- Ability scores, saving throws, and skills — click any of them to roll a d20 check in the browser.
-- Combat tracker: AC, initiative, speed, HP (with damage/heal buttons and a temp HP pool), hit dice, and death saves.
-- Attacks table with click-to-roll attack and damage rolls.
-- Spellcasting block with spell slot tracking.
-- Limited-use class/racial feature tracker (Divine Sense, Lay on Hands, Channel Divinity, Healing Hands, Radiant Soul) with Short Rest / Long Rest buttons that recharge the right resources.
-- Class features, racial traits, and background feature as expandable detail cards.
-- Editable personal details, personality traits, appearance, equipment, coins, feats, magic items, and notes — fields left blank on the original sheet, saved locally in your browser (`localStorage`) as you fill them in.
-- Responsive layout for desktop and mobile, plus a print stylesheet.
+- **Character builder**: name, race/subrace, class/subclass, background,
+  ability scores (standard array, point buy, or manual), skill proficiencies,
+  and starting armor, with a live-computed preview (ability mods, AC, HP,
+  proficiency bonus, spell save DC) as you build.
+- **Bundled content**: all 9 core species (with iconic subraces), all 12
+  classes with their PHB subclasses and full level 1-20 feature progressions,
+  13 backgrounds, the full weapon and armor tables, ~34 feats, and a broad
+  spell index.
+- **Interactive character sheet**: click any ability, save, skill, or attack
+  to roll it. Track HP (with temp HP and damage/heal buttons), hit dice,
+  death saves, spell slots, and any class resource (Rage, Ki, Channel
+  Divinity, Lay on Hands, etc. — auto-suggested at creation, and you can add
+  your own). Short Rest / Long Rest buttons recharge the right resources.
+  Editable equipment, coins, feats, magic items, personality, and notes.
+- **Homebrew content**: add your own custom races, classes, backgrounds,
+  feats, spells, and items from the Homebrew Content page. They show up
+  right alongside official content in the builder. Export your homebrew as a
+  JSON file to share with others, or import someone else's.
 
 ## Running locally
 
-No build step is required — it's plain HTML/CSS/JS.
+No build step required.
 
 ```bash
 python3 -m http.server 8000
@@ -28,7 +42,16 @@ Or just open `index.html` directly in a browser.
 
 ## Structure
 
-- `index.html` — page layout/markup
-- `css/style.css` — theme and layout
-- `js/character.js` — the character's static data, extracted from the source PDF
-- `js/app.js` — rendering, dice rolling, and localStorage-backed state
+- `index.html` — thin page shell; views render into `#app`
+- `css/style.css` — theme and layout for every view
+- `js/data/` — bundled reference content: skills, races, classes (incl.
+  subclasses), backgrounds, equipment, feats, spells
+- `js/store.js` — localStorage persistence for characters and homebrew
+  content, plus merging homebrew into the bundled content lists
+- `js/calc.js` — turns a character's build choices into computed stats
+  (final ability scores, saves, skills, AC, HP, spell slots, attacks)
+- `js/views/home.js` — character list / entry point
+- `js/views/builder.js` — character creation & editing wizard
+- `js/views/sheet.js` — the interactive character sheet
+- `js/views/homebrew.js` — homebrew content manager (CRUD + import/export)
+- `js/router.js`, `js/main.js` — a small hash-based router wiring it together

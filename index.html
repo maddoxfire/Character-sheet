@@ -3,248 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jaxen Ryder — Character Sheet</title>
+<title>D&amp;D Character Builder</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<div id="roll-log" class="roll-log" aria-live="polite"></div>
+<main id="app"></main>
 
-<header class="sheet-header">
-  <div class="header-main">
-    <h1 id="char-name"></h1>
-    <div class="header-sub">
-      <span id="char-class-level" class="pill pill-accent"></span>
-      <span id="char-background" class="pill"></span>
-      <span id="char-race" class="pill"></span>
-    </div>
-  </div>
-  <div class="header-xp">
-    <div class="xp-box">
-      <label>Experience</label>
-      <div><span id="char-xp"></span> / <span id="char-xp-next"></span></div>
-    </div>
-    <div class="header-actions">
-      <button id="short-rest-btn" class="btn btn-ghost">Short Rest</button>
-      <button id="long-rest-btn" class="btn btn-ghost">Long Rest</button>
-    </div>
-  </div>
-</header>
-
-<main class="sheet-grid">
-
-  <!-- LEFT COLUMN -->
-  <section class="col col-left">
-    <div class="card">
-      <h2>Ability Scores</h2>
-      <div id="abilities" class="abilities-grid"></div>
-    </div>
-
-    <div class="card">
-      <h2>Saving Throws</h2>
-      <div id="saves" class="saves-list"></div>
-      <p id="save-notes" class="note-line"></p>
-    </div>
-
-    <div class="card">
-      <h2>Skills</h2>
-      <div id="skills" class="skills-list"></div>
-      <p class="note-line">Passive Perception: <strong id="passive-perception"></strong></p>
-    </div>
-
-    <div class="card">
-      <h2>Senses &amp; Resistances</h2>
-      <p><strong>Senses:</strong> <span id="senses"></span></p>
-      <p><strong>Damage resistances:</strong> <span id="resistances"></span></p>
-    </div>
-  </section>
-
-  <!-- CENTER COLUMN -->
-  <section class="col col-center">
-    <div class="card combat-card">
-      <h2>Combat</h2>
-      <div class="combat-stats">
-        <div class="stat-box">
-          <label>Armor Class</label>
-          <div class="stat-value" id="ac"></div>
-          <div class="stat-note" id="ac-note"></div>
-        </div>
-        <div class="stat-box">
-          <label>Initiative</label>
-          <div class="stat-value" id="initiative"></div>
-        </div>
-        <div class="stat-box">
-          <label>Speed</label>
-          <div class="stat-value" id="speed"></div>
-          <div class="stat-note" id="speed-encumbered"></div>
-        </div>
-        <div class="stat-box">
-          <label>Proficiency</label>
-          <div class="stat-value" id="prof-bonus"></div>
-        </div>
-      </div>
-
-      <div class="hp-tracker">
-        <div class="hp-row">
-          <label>Hit Points</label>
-          <div class="hp-controls">
-            <button class="btn btn-small" id="hp-minus-5">-5</button>
-            <button class="btn btn-small" id="hp-minus">-1</button>
-            <input type="number" id="hp-current" class="hp-input">
-            <span class="hp-slash">/</span>
-            <span id="hp-max" class="hp-max"></span>
-            <button class="btn btn-small" id="hp-plus">+1</button>
-            <button class="btn btn-small" id="hp-plus-5">+5</button>
-          </div>
-          <div class="hp-bar-wrap"><div id="hp-bar" class="hp-bar"></div></div>
-        </div>
-        <div class="hp-row">
-          <label for="hp-temp">Temp HP</label>
-          <input type="number" id="hp-temp" class="hp-input hp-input-temp" min="0">
-        </div>
-        <div class="hp-row">
-          <label>Hit Dice (<span id="hd-die"></span>)</label>
-          <div id="hit-dice" class="pip-row"></div>
-        </div>
-        <div class="hp-row">
-          <label>Death Saves</label>
-          <div class="death-saves">
-            <div class="death-save-group">
-              <span class="death-label success">Successes</span>
-              <div id="death-success" class="pip-row"></div>
-            </div>
-            <div class="death-save-group">
-              <span class="death-label failure">Failures</span>
-              <div id="death-fail" class="pip-row"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>Attacks &amp; Cantrips</h2>
-      <table class="attacks-table">
-        <thead>
-          <tr><th>Name</th><th>Range</th><th>To Hit</th><th>Damage</th><th>Type</th><th>Notes</th></tr>
-        </thead>
-        <tbody id="attacks-body"></tbody>
-      </table>
-    </div>
-
-    <div class="card">
-      <h2>Spellcasting</h2>
-      <div class="spell-stats">
-        <div class="stat-box small"><label>Ability</label><div class="stat-value" id="spell-ability"></div></div>
-        <div class="stat-box small"><label>Save DC</label><div class="stat-value" id="spell-dc"></div></div>
-        <div class="stat-box small"><label>Attack Mod</label><div class="stat-value" id="spell-atk"></div></div>
-      </div>
-      <p><strong>Cantrips:</strong> <span id="spell-cantrips"></span></p>
-      <p><strong>Always prepared (Oath):</strong> <span id="spell-prepared"></span></p>
-      <div id="spell-slots"></div>
-    </div>
-
-    <div class="card">
-      <h2>Limited-Use Features</h2>
-      <div id="limited-features"></div>
-    </div>
-  </section>
-
-  <!-- RIGHT COLUMN -->
-  <section class="col col-right">
-    <div class="card">
-      <h2>Class Features</h2>
-      <div id="class-features" class="feature-list"></div>
-    </div>
-
-    <div class="card">
-      <h2>Racial Traits</h2>
-      <div id="racial-traits" class="feature-list"></div>
-    </div>
-
-    <div class="card">
-      <h2>Background Feature</h2>
-      <div id="background-feature" class="feature-list"></div>
-    </div>
-
-    <div class="card">
-      <h2>Proficiencies &amp; Languages</h2>
-      <p><strong>Armor:</strong> <span id="armor-prof"></span></p>
-      <p><strong>Weapons:</strong> <span id="weapon-prof"></span></p>
-      <p><strong>Tools:</strong> <span id="tool-prof"></span></p>
-      <p><strong>Languages:</strong> <span id="languages"></span></p>
-      <p><strong>Lifestyle:</strong> <span id="lifestyle"></span> (<span id="lifestyle-cost"></span>/day)</p>
-    </div>
-  </section>
-
-</main>
-
-<!-- FULL WIDTH: character details, editable -->
-<main class="sheet-grid-full">
-  <section class="card">
-    <h2>Personal Details</h2>
-    <div class="details-grid" id="personal-details"></div>
-  </section>
-
-  <section class="card">
-    <h2>Personality</h2>
-    <div class="personality-grid">
-      <label>Personality Traits<textarea id="pt-traits" data-field="personality.traits" rows="3"></textarea></label>
-      <label>Ideals<textarea id="pt-ideals" data-field="personality.ideals" rows="3"></textarea></label>
-      <label>Bonds<textarea id="pt-bonds" data-field="personality.bonds" rows="3"></textarea></label>
-      <label>Flaws<textarea id="pt-flaws" data-field="personality.flaws" rows="3"></textarea></label>
-    </div>
-  </section>
-
-  <section class="card">
-    <h2>Background &amp; History</h2>
-    <p id="background-history" class="prose"></p>
-  </section>
-
-  <section class="card">
-    <h2>Appearance, Allies &amp; Enemies</h2>
-    <label>Appearance<textarea id="appearance" data-field="appearance" rows="2"></textarea></label>
-    <label>Allies &amp; Organizations<textarea id="allies" data-field="alliesOrganizations" rows="2"></textarea></label>
-    <label>Enemies<textarea id="enemies" data-field="enemies" rows="2"></textarea></label>
-  </section>
-
-  <section class="card">
-    <h2>Equipment &amp; Coins</h2>
-    <div class="coins-row" id="coins-row"></div>
-    <table class="equipment-table">
-      <thead><tr><th>Item</th><th>Qty</th><th>Weight</th><th></th></tr></thead>
-      <tbody id="equipment-body"></tbody>
-    </table>
-    <button class="btn btn-ghost" id="add-equipment">+ Add Item</button>
-  </section>
-
-  <section class="card">
-    <h2>Feats &amp; Magic Items</h2>
-    <div class="two-col">
-      <div>
-        <h3>Feats</h3>
-        <ul id="feats-list" class="editable-list"></ul>
-        <button class="btn btn-ghost" id="add-feat">+ Add Feat</button>
-      </div>
-      <div>
-        <h3>Magic Items</h3>
-        <ul id="magic-items-list" class="editable-list"></ul>
-        <button class="btn btn-ghost" id="add-magic-item">+ Add Item</button>
-      </div>
-    </div>
-  </section>
-
-  <section class="card">
-    <h2>Notes</h2>
-    <textarea id="notes" data-field="notes" rows="4"></textarea>
-  </section>
-</main>
-
-<footer class="sheet-footer">
-  <p>Based on MorePurpleMoreBetter's D&amp;D 5th edition Character Record Sheet. Character data stored locally in your browser.</p>
-  <button id="reset-btn" class="btn btn-danger-ghost">Reset tracked data to defaults</button>
-</footer>
-
-<script src="js/character.js"></script>
-<script src="js/app.js"></script>
+<script src="js/data/skills.js"></script>
+<script src="js/data/races.js"></script>
+<script src="js/data/classes.js"></script>
+<script src="js/data/backgrounds.js"></script>
+<script src="js/data/equipment.js"></script>
+<script src="js/data/feats.js"></script>
+<script src="js/data/spells.js"></script>
+<script src="js/store.js"></script>
+<script src="js/calc.js"></script>
+<script src="js/views/home.js"></script>
+<script src="js/views/builder.js"></script>
+<script src="js/views/sheet.js"></script>
+<script src="js/views/homebrew.js"></script>
+<script src="js/router.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>
